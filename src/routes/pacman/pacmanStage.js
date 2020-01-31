@@ -7,6 +7,6 @@ export default class PacmanStage extends Engine.Stage {
     }
 
     create = () => {
-        this.addActor(new Player({x: 100, y: 100}))
+        this.addActor(new Player({x: 200, y: 200}))
     }
 }
