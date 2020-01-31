@@ -22,7 +22,9 @@
 
 <style>
   * {
-    color: greenyellow;
+    color: cyan;
+    font-family: Arial, Helvetica, sans-serif;
+    font-weight: 100;
   }
 
   .overlay {

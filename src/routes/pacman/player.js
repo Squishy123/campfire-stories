@@ -33,8 +33,8 @@ export default class Player extends Engine.Actor {
         this.ctx.clearRect(this.bounds.x, this.bounds.y, this.bounds.width, this.bounds.height);
 
         //update bounds
-        this.bounds.x = this.px;
-        this.bounds.y = this.py;
+        this.bounds.x = Math.floor(this.px);
+        this.bounds.y = Math.floor(this.py);
 
         //draw frame
         this.ctx.fillStyle = "yellow";
