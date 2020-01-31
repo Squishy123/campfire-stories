@@ -1,20 +1,49 @@
 <script>
   import { onMount } from "svelte";
+  import { update_fps, render_fps } from "./store.js";
   import Game from "./pacmanStage.js";
-  let canvas;
+  let canvas, uFPS, rFPS;
 
   onMount(() => {
     //create pacman stage
     let game = new Game(canvas);
     game.start();
+
+    //subscript fps
+    update_fps.subscribe(val => {
+      uFPS = val;
+    });
+
+    render_fps.subscribe(val => {
+      rFPS = val;
+    });
   });
 </script>
 
 <style>
+  * {
+    color: greenyellow;
+  }
+
+  .overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+  }
   canvas {
+    position: fixed;
+    top: 0;
+    left: 0;
     background-color: black;
   }
 </style>
 
-<h1>Pacman</h1>
-<canvas width={400} height={400} bind:this={canvas} />
+<canvas
+  width={window.innerWidth}
+  height={window.innerHeight}
+  bind:this={canvas} />
+
+<div class="overlay">
+  <h1>Render FPS: {rFPS}</h1>
+  <h1>Update FPS: {uFPS}</h1>
+</div>
