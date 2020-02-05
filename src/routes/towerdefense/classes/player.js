@@ -1,4 +1,6 @@
-export default class Player {
+import Engine from 'engine';
+
+export default class Player extends Engine.Actor {
     constructor(hp, currency) {
         this.currency = currency;
         this.hp = hp

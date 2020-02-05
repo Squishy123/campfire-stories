@@ -1,4 +1,5 @@
-<!--<script>
+<!-- TODO
+<script>
   import { onMount } from "svelte";
   import Game from "./pacmanStage.js";
   let canvas, uFPS, rFPS;

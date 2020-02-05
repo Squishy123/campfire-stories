@@ -1,4 +1,6 @@
-class Tower extends Actor {
+import Engine from 'engine';
+
+export default class Tower extends Engine.Actor {
     constructor(atkspeed, atk, targetingMode, range, x, y) {
         super({});
         this.atkspeed = atkspeed;
