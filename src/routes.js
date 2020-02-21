@@ -1,7 +1,6 @@
 import Home from './routes/home.svelte'
-import Pacman from './routes/pacman/pacman.svelte'
+import Game from './routes/game/main.svelte'
 
 export default {
-    '/': Home,
-    '/pacman': Pacman
+    '/': Game
 }
