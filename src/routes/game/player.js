@@ -1,14 +1,14 @@
 import Engine, { InputHandler } from 'engine';
+import PhysicsActor from './physicsActor';
 const ACCELERATION = 1;
 const FRICTION = 0.5;
 const MAX_SPEED = 5;
-export default class Player extends Engine.Actor {
+export default class Player extends PhysicsActor {
     handleInput = (event) => {
         console.log(this.facing)
         if (event.code == "KeyA") {
             this.facing.h = -1;
-            if (this.vx > -MAX_SPEED)
-                this.vx -= ACCELERATION;
+            this.applyForce(100);
         } else if (event.code == "KeyD") {
             this.facing.h = 1;
             if (this.vx < MAX_SPEED)

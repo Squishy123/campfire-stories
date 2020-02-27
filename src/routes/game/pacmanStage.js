@@ -1,5 +1,5 @@
 import Engine from 'engine';
-import Player from './player';
+import LOL from './lol';
 import FPSCounter from './fpsCounter';
 
 export default class PacmanStage extends Engine.Stage {
@@ -9,6 +9,8 @@ export default class PacmanStage extends Engine.Stage {
 
     create = () => {
         this.addActor(new FPSCounter());
-        this.addActor(new Player({x: 200, y: 200}))
+        let l = new LOL({width: 50, height: 50,position: { x: 200, y: 200 } })
+        console.log(l);
+        this.addActor(l)
     }
 }

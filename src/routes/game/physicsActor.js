@@ -4,6 +4,8 @@ export default class PhysicsActor extends Engine.Actor {
     constructor(bounds) {
         super(bounds);
 
+        this.mass = bounds.mass || 1;
+
         this.position = bounds.position || { x: 0, y: 0 };
         this.bufPosition = this.position;
 
@@ -14,30 +16,42 @@ export default class PhysicsActor extends Engine.Actor {
         this.bufAcceleration = this.acceleration;
     }
 
+    applyForce = (force) => {
+        if (force.x && force.x != 0) {
+            this.bufAcceleration.x = force.x / this.mass;
+        }
+        if (force.y && force.y != 0) {
+            this.bufAcceleration.y = force.y / this.mass;
+        }
+        console.log(this.bufAcceleration);
+    }
+
     updateVelocity = (dt) => {
-        this.bufVelocity.x = this.bufVelocity.x + this.acceleration.x * dt;
-        this.bufVelocity.y = this.bufVelocity.y + this.acceleration.y * dt;
+        this.bufVelocity.x = this.bufVelocity.x + this.bufAcceleration.x * dt;
+        this.bufVelocity.y = this.bufVelocity.y + this.bufAcceleration.y * dt;
     }
 
     updatePosition = (dt) => {
-        this.bufPosition.x += this.bufVelocity.x * dt + 0.5 * this.acceleration.x * dt * dt;
-        this.bufPosition.y += this.bufVelocity.y * dt + 0.5 * this.acceleration.y * dt * dt;
+        this.bufPosition.x += this.bufVelocity.x * dt + 0.5 * this.bufAcceleration.x * dt * dt;
+        this.bufPosition.y += this.bufVelocity.y * dt + 0.5 * this.bufAcceleration.y * dt * dt;
+        console.log(this.position);
     }
 
     setBuffers = () => {
-        this.position = this.bufPosition;
+        this.position = {x: Math.floor(this.bufPosition.x), y: Math.floor(this.bufPosition.y)};
         this.velocity = this.bufVelocity;
         this.acceleration = this.bufAcceleration;
     }
 
     //function for body to be drawn
     draw = (ctx = this.ctx) => {
-
+        ctx.fillStyle = "red";
+        ctx.fillRect(this.position.x, this.position.y, this.bounds.width, this.bounds.height);
     }
 
     //function for body to be cleared
     clear = (ctx = this.ctx) => {
-        ctx.fillRect(this.position.x, this.position.y, this.bounds.width, this.bounds.height);
+        ctx.clearRect(this.position.x, this.position.y, this.bounds.width, this.bounds.height);
     }
 
     //run every update tick
