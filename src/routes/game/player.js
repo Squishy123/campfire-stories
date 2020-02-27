@@ -1,29 +1,40 @@
-import Engine, {InputHandler} from 'engine';
-const SPEED = 2;
+import Engine, { InputHandler } from 'engine';
+const ACCELERATION = 1;
+const FRICTION = 0.5;
+const MAX_SPEED = 5;
 export default class Player extends Engine.Actor {
     handleInput = (event) => {
-        if(event.code == "KeyA") {
-            this.vx = -SPEED;
-            this.vy = 0;
+        console.log(this.facing)
+        if (event.code == "KeyA") {
+            this.facing.h = -1;
+            if (this.vx > -MAX_SPEED)
+                this.vx -= ACCELERATION;
         } else if (event.code == "KeyD") {
-            this.vx = SPEED;
-            this.vy = 0;
-        } else if (event.code == "KeyW") {
+            this.facing.h = 1;
+            if (this.vx < MAX_SPEED)
+                this.vx += ACCELERATION;
+        }
+        /*
+        if (event.code == "KeyW") {
             this.vy = -SPEED;
             this.vx = 0;
         } else if (event.code == "KeyS") {
             this.vy = SPEED;
             this.vx = 0;
-        }               
+        }              */
     }
 
     create = () => {
+        this.facing = {
+            h: 0,
+            v: 0
+        }
         this.px = this.bounds.x; this.py = this.bounds.y;
-        this.vx = SPEED; this.vy = 0;
+        this.vx = 0; this.vy = 0;
         this.bounds.width = 30;
         this.bounds.height = 30;
         this.input = new InputHandler(document.querySelector('body'), {
-            "keydown": [this.handleInput]   
+            "keydown": [this.handleInput]
         });
         this.input.startHandler();
     }
@@ -45,14 +56,31 @@ export default class Player extends Engine.Actor {
         this.px += this.vx;
         this.py += this.vy;
 
+        //rounding
+        if(Math.abs(this.vx) < 0.2) {
+            this.vx = 0;
+        }
+
+        //friction
+        if (this.facing.h == -1) {
+            console.log(this.vx)
+            if (this.vx < 0) {
+                this.vx += FRICTION;
+            }
+        } else if (this.facing.h == 1) {
+            if (this.vx > 0) {
+                this.vx -= FRICTION;
+            }
+        }
+
         //wrap
-        if(this.px + this.bounds.width < 0) {
+        if (this.px + this.bounds.width < 0) {
             this.px = this.stage.elem.width;
         } else if (this.px > this.stage.elem.width) {
             this.px = 0;
         }
 
-        if(this.py + this.bounds.height < 0) {
+        if (this.py + this.bounds.height < 0) {
             this.py = this.stage.elem.height;
         } else if (this.py > this.stage.elem.height) {
             this.py = 0;
